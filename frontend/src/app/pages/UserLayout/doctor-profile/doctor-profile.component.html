@@ -1,0 +1,123 @@
+<div class="raw bg-image-with-overlay d-flex flex-column justify-content-center align-content-end">
+
+  <img *ngIf="user.user?.avatarPath ==null" src="assets/avatar2.png" alt="..." class="rounded mx-auto"
+       style="width: 10rem">
+  <img *ngIf="user.user?.avatarPath !=null" [src]="url+user.user?.avatarPath" alt="..." class="rounded mx-auto"
+       style="width: 10rem">
+</div>
+<h3 class="text-center">Hello {{user.user?.name}}</h3>
+
+<form [formGroup]="userDataForm" class="mb-2" (ngSubmit)="onUpdateUserData()" (keyup)="watchChanges()">
+  <div class="form-inline">
+    <!--name-->
+    <mat-form-field class="w-100" appearance="fill">
+      <mat-label>Name</mat-label>
+      <input formControlName="name" matInput  [value]="user.user?.name != null ?user.user?.name :'Your name goes here!'">
+    </mat-form-field>
+    <!--/name-->
+
+    <!--price per hour-->
+    <mat-form-field class="w-100" appearance="fill">
+      <mat-label>Price per hour Rs.</mat-label>
+      <input formControlName="pricePerHour" matInput type="number" [value]="user.user?.pricePerHour != null ?user.user?.pricePerHour :'Price per hour'">
+    </mat-form-field>
+    <!--/price per hour-->
+    <div class="form-group w-100">
+      <mat-label>Out of office mode</mat-label>
+      <mat-slide-toggle (change)="watchOutOfOfficeModeChange($event)" [checked]="outOfOffice" formControlName="outOfOffice"></mat-slide-toggle>
+    </div>
+    <div class="form-group">
+    <button mat-flat-button color="primary" [disabled]="!displayUpdateBtn">Update details</button>
+    </div>
+  </div>
+</form>
+
+<mat-divider></mat-divider>
+
+<form [formGroup]="imageForm" class="mt-2">
+  <div class="custom-file">
+    <input formControlName="file" (change)="onChangeFile($event)" type="file" class="custom-file-input" id="customFile">
+    <label class="custom-file-label" for="customFile">Choose file</label>
+    <button [disabled]="!fileData" type="button" mat-flat-button (click)="upload()" class="mt-2 mb-2">Upload</button>
+  </div>
+</form>
+
+<div class="row">
+  <div class="col-12 col-md-12 col-lg-6  mt-3 mb-5">
+    <h4 class="font-weight-light">Specializations list</h4>
+    <div class="overflow-auto" style="height: 300px;">
+      <mat-divider></mat-divider>
+      <div class="form-group">
+        <mat-selection-list #shoes (selectionChange)="addSpecializations(shoes)" role="listbox">
+          <mat-list-option  [selected]="checkUserSpecialization(special.id)" *ngFor="let special of allSpecializations"
+                           [id]="special.id" [value]="special.id">
+            {{special.specializationName}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <button mat-stroked-button color="primary" (click)="updateSpecializationList()">Update List</button>
+
+  </div>
+
+  <div class="col-12 col-md-12 col-lg-6 overflow-auto mt-3 mb-5">
+    <h4 class="font-weight-light">Transport settings</h4>
+    <mat-divider></mat-divider>
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-6">
+        <div class="form-group ">
+          <mat-form-field class="w-100">
+            <mat-label>Your transports</mat-label>
+            <mat-select (selectionChange)="userTransportSelectionChange($event)">
+              <mat-option *ngFor="let tr of userTransports" [value]="tr.id"
+                          [disabled]="(tr.type.toLowerCase() =='default') ? true : false">
+                {{tr.type}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Price per km</mat-label>
+            <input matInput [(ngModel)]="pricePerKm" type="number">
+          </mat-form-field>
+        </div>
+        <div class="btn-group">
+          <button mat-stroked-button color="primary" (click)="onUpdateCharges()">Update</button>
+          <button mat-stroked-button color="warn" (click)="onDeleteTransportType()">Delete</button>
+        </div>
+      </div>
+
+
+      <div class="col-12 col-md-12 col-lg-6">
+        <div class="form-group">
+          <mat-form-field class="w-100">
+            <mat-label>Available transports</mat-label>
+            <mat-select (selectionChange)="availableTransportSelectionChange($event)">
+              <mat-option *ngFor="let tr of allTransports" [value]="tr.id"
+                          [disabled]="(tr.type.toLowerCase() =='default') ? true : false">
+                {{tr.type}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Price per km</mat-label>
+            <input matInput type="number" [(ngModel)]="newPricePerKm">
+          </mat-form-field>
+        </div>
+        <button mat-stroked-button color="primary" (click)="addNewTransportMethod()">Add</button>
+      </div>
+    </div>
+    <!--<mat-selection-list #trans (selectionChange)="addTransport(trans)">-->
+    <!--<mat-list-option [selected]="checkUserTransports(transport.id)" *ngFor="let transport of allTransports"-->
+    <!--[id]="transport.id" [value]="transport.id">-->
+    <!--{{transport.type}}-->
+    <!--</mat-list-option>-->
+    <!--<input type="number" placeholder="enter price per km">-->
+    <!--</mat-selection-list>-->
+  </div>
+
+</div>
+

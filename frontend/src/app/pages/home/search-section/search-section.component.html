@@ -1,0 +1,56 @@
+<section class="container-fluid">
+  <section class="container">
+    <section class="row justify-content-center">
+      <section class="col-sm-12 col-md-8 col-lg-6">
+        <mat-card
+          class="pt-3 pt-sm-3 pt-md-3 pt-lg-4 pb-3 pb-sm-3 pb-md-3 pb-lg-4 pl-3 pl-sm-3 pl-md-3 pl-lg-5 pr-3 pr-sm-3 pr-md-3 pr-lg-5">
+          <form class="example-form " [formGroup]="myFormControl" (ngSubmit)="check()">
+
+            <!--name-->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Doctor name</mat-label>
+              <input formControlName="docName" matInput placeholder="Doctor name">
+              <mat-icon matSuffix>perm_identity</mat-icon>
+            </mat-form-field>
+            <!--name end-->
+
+            <!--type-->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="type">
+                <mat-option   value="">
+                  Select
+                </mat-option>
+                <mat-option  *ngFor="let role of roles" [value]="role.roleName">
+                  {{role.roleName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!--type end-->
+
+            <!--specialization-->
+            <mat-form-field class="example-full-width w-100" appearance="fill">
+              <mat-icon matSuffix>medical_services</mat-icon>
+              <mat-label>Specialization</mat-label>
+              <input type="text"
+                     placeholder="Any specialization"
+                     aria-label="Number"
+                     matInput
+
+                     formControlName="specialization"
+                     [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredSpecializations | async" [value]="option.specializationName">
+                  {{option.specializationName}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <!--specialization end-->
+            <button mat-raised-button color="primary" class="w-100" type="submit">Search</button>
+          </form>
+        </mat-card>
+      </section>
+    </section>
+  </section>
+</section>
+

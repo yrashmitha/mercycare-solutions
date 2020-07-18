@@ -1,0 +1,32 @@
+<section class="container-fluid">
+  <section class="row m-2 m-lg-5 p-2 p-lg-4 m-sm-3 p-sm-3 m-md-3 p-md-3 display-flex">
+    <section *ngFor="let doc of docArray" class="col-12 col-md-6 col-lg-3 mb-3">
+      <mat-card class="example-card h-100">
+        <mat-card-header>
+          <mat-card-title>{{doc.name}}
+            <span class="badge badge-pill badge-primary">{{doc.Status}}</span>
+          </mat-card-title>
+          <mat-card-subtitle>{{doc.role}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image class="image" [src]="doc.avatarPath==null ? 'https://material.angular.io/assets/img/examples/shiba2.jpg': staticUrl+doc.avatarPath" alt="Photo of a Shiba Inu">
+
+        <!--<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+        <mat-card-content>
+
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-stroked-button color="primary" routerLink="/appointment/{{doc.id}}">Appointment</button>
+          <button mat-button>Details</button>
+        </mat-card-actions>
+      </mat-card>
+
+
+    </section>
+  </section>
+
+  <section class="row">
+    <section class="col-12">
+      <ngb-pagination [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"  class="d-flex justify-content-center" [pageSize]="limit"  (pageChange)="setPaginations($event)" [collectionSize]="collectionSize" [(page)]="page" aria-label="Default pagination" ></ngb-pagination>
+    </section>
+  </section>
+</section>

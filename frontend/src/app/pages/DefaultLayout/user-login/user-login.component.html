@@ -1,0 +1,78 @@
+<section class="container-fluid min-vh-100 flex-column justify-content-center d-flex" id="main">
+  <section class="row ">
+    <section class="col-12 col-md-8 col-lg-8 mx-auto">
+
+      <h1 class="text-center p-sm-1 p-lg-3 p-md-2">Loginx</h1>
+      <form (ngSubmit)="onSubmit()" [formGroup]="loginForm"
+            class="shadow  bg-white rounded p-lg-5 p-md-3 p-sm-2 p-2">
+
+        <!--email field-->
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Enter your email</mat-label>
+            <input type="email" matInput placeholder="email" formControlName="email" required>
+            <mat-error *ngIf="loginForm.controls.email.status!='VALID'">This is required field!</mat-error>
+          </mat-form-field>
+        </div>
+        <!--email field end-->
+
+
+        <!--password-->
+        <div class="form-group">
+          <div class="example-container">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Enter your password</mat-label>
+              <input formControlName="password" matInput [type]="hide ? 'password' : 'text'">
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+        <!--password end-->
+        <div class="form-group">
+          <span routerLink="/" class="nav-link text-blue m-0 p-0">Forgot password?</span>
+        </div>
+
+        <div class="form-group">
+          <h6>Not yet registerd? <span class="text-blue font-weight-bold" routerLink="/register">Sign up now</span></h6>
+        </div>
+        <mat-spinner-button [disabled]="loginForm.invalid" (btnClick)="onSubmit()"
+                            [options]="btnOpts"></mat-spinner-button>
+
+      </form>
+
+      <!--firebase login-->
+
+      <!--<div id="auth"></div>-->
+      <!--<ngx-auth-firebaseui-login></ngx-auth-firebaseui-login>-->
+
+
+      <!--<div *ngIf="afAuth.user | async as user; else showLogin">-->
+      <!--<img class="img-circle img-thumbnail" [src]="user.photoURL" alt="">-->
+      <!--<h1>Hello {{ user.displayName }}!</h1>-->
+      <!--<button (click)="logout()">Logout</button>-->
+      <!--</div>-->
+      <!--<ng-template #showLogin>-->
+      <!--<p>Please login.</p>-->
+      <!--<button (click)="login()">Login with Google</button>-->
+      <!--</ng-template>-->
+
+
+      {{ (item | async)?.name }}
+      <button (click)="check()">check</button>
+      <h1>{{afAuth.user}}</h1>
+      <button (click)="logout()">log out</button>
+
+
+    </section>
+  </section>
+</section>
+
+
+<!--5jhIR3q4rHPDQ6Rq7YGr35wCpI92-->
+<!--5jhIR3q4rHPDQ6Rq7YGr35wCpI92-->
+
+
+

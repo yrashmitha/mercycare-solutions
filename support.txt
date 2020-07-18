@@ -1,0 +1,65 @@
+<button (click)="check()">check</button>
+<div>
+  {{ (item | async)?.name }}
+</div>
+
+
+check() {
+    // this.ref = this.fire.doc('locations/N0xDEUiVmT2SYzbhrPkO').valueChanges();
+    // console.log(this.ref)
+    this.itemDoc = this.fire.doc<any>('locations/N0xDEUiVmT2SYzbhrPkO');
+    this.item = this.itemDoc.valueChanges();
+
+  }
+
+
+
+ <div *ngIf="auth.user$ | async as user; else login">
+      {{ user | json }}
+      <hr>
+      <button (click)="auth.signOut()">Sign Out</button>
+      </div>
+      <ng-template #login>
+        <button (click)="auth.googleSignin()">Sign In</button>
+      </ng-template>
+
+
+ // NgxAuthFirebaseUIModule.forRoot(environment.firebase,
+    //   getToken,
+    //   {
+    //     enableFirestoreSync: true, // enable/disable autosync users with firestore
+    //     toastMessageOnAuthSuccess: false, // whether to open/show a snackbar message on auth success - default : true
+    //     toastMessageOnAuthError: false, // whether to open/show a snackbar message on auth error - default : true
+    //     authGuardFallbackURL: '/loggedout', // url for unauthenticated users - to use in combination with canActivate feature on a route
+    //     authGuardLoggedInURL: '/loggedin', // url for authenticated users - to use in combination with canActivate feature on a route
+    //     passwordMaxLength: 60, // `min/max` input parameters in components should be within this range.
+    //     passwordMinLength: 8, // Password length min/max in forms independently of each componenet min/max.
+    //     // Same as password but for the name
+    //     nameMaxLength: 50,
+    //     nameMinLength: 2,
+    //     // If set, sign-in/up form is not available until email has been verified.
+    //     // Plus protected routes are still protected even though user is connected.
+    //     guardProtectedRoutesUntilEmailIsVerified: true,
+    //     enableEmailVerification: true, // default: true
+    //   }),
+
+
+firestore rules////
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // This rule allows anyone on the internet to view, edit, and delete
+    // all data in your Firestore database. It is useful for getting
+    // started, but it is configured to expire after 30 days because it
+    // leaves your app open to attackers. At that time, all client
+    // requests to your Firestore database will be denied.
+    //
+    // Make sure to write security rules for your app before that time, or else
+    // your app will lose access to your Firestore database
+    match /{document=**} {
+      allow read, write: if request.time < timestamp.date(2020, 7, 23);
+    }
+  }
+}

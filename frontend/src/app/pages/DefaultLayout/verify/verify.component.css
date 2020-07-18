@@ -1,0 +1,32 @@
+.my-bg{
+
+
+  /*background: hsla(248, 87%, 36%, 1);*/
+
+  /*background: linear-gradient(45deg, hsla(248, 87%, 36%, 1) 0%, hsla(208, 91%, 41%, 0.9) 80%);*/
+
+  /*background: -moz-linear-gradient(45deg, hsla(248, 87%, 36%, 1) 0%, hsla(208, 91%, 41%, 0.9) 80%);*/
+
+  /*background: -webkit-linear-gradient(45deg, hsla(248, 87%, 36%, 1) 0%, hsla(208, 91%, 41%, 0.9) 80%);*/
+
+  /*filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#210CAE", endColorstr="#096FC8", GradientType=1 );*/
+
+  background: hsla(134, 62%, 69%, 1);
+
+  background: linear-gradient(45deg, hsla(134, 62%, 69%, 1) 0%, hsla(208, 90%, 88%, 1) 100%);
+
+  background: -moz-linear-gradient(45deg, hsla(134, 62%, 69%, 1) 0%, hsla(208, 90%, 88%, 1) 100%);
+
+  background: -webkit-linear-gradient(45deg, hsla(134, 62%, 69%, 1) 0%, hsla(208, 90%, 88%, 1) 100%);
+
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#7FE196", endColorstr="#C3E1FC", GradientType=1 );
+
+
+
+
+
+  border-radius: 20px;
+}
+#c_5ssyo4oyafkbkd4kix {
+  min-height: unset!important;
+}

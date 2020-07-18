@@ -1,0 +1,167 @@
+<section class="container min-vh-100 flex-column justify-content-center d-flex">
+  <section class="row ">
+    <section class="col-12 col-md-8 col-lg-8 mx-auto">
+
+      <h1 class="text-center p-sm-1 p-lg-3 p-md-2">Sign Up Now</h1>
+
+
+      <form [formGroup]="signUpForm"
+            class="shadow  bg-white rounded p-lg-5 p-md-3 p-sm-2 p-2 text-center" (change)="check(signUpForm)">
+
+
+        <!--title-->
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Title</mat-label>
+            <mat-select formControlName="type" name="food">
+              <mat-option *ngFor="let title of titles" [value]="title.value">
+                {{title.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!--title end-->
+
+
+        <div class="row">
+          <div class="col-sm-12 col-md-6 col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>First Name</mat-label>
+              <input type="text" matInput placeholder="Yohan" formControlName="firstName" required>
+              <mat-error *ngIf="signUpForm.controls.firstName.status!='VALID'">Minimum character length is 3</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Last Name</mat-label>
+              <input type="text" matInput placeholder="Rashmitha" formControlName="lastName" required>
+              <mat-error *ngIf="signUpForm.controls.lastName.status!='VALID'">Minimum character length is 3</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+
+        <!--bday field-->
+        <!--<div class="form-group">-->
+        <!--<mat-form-field appearance="outline" class="w-100">-->
+        <!--<mat-label>BirthDay</mat-label>-->
+        <!--<input formControlName="bday" matInput [matDatepicker]="picker">-->
+        <!--<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+        <!--<mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>-->
+        <!--<mat-error *ngIf="signUpForm.controls.bday.status!='VALID'">This is required field!-->
+        <!--</mat-error>-->
+        <!--</mat-form-field>-->
+
+        <!--</div>-->
+        <!--bday field end-->
+
+
+        <!--mobile number-->
+
+        <div class="row">
+          <div class="col-sm-12 col-md-6 col-lg-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Select area code(+94)</mat-label>
+
+              <mat-select placeholder="code">
+                <mat-option value="option">+94</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-9">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Enter your mobile number</mat-label>
+              <input type="tel" matInput placeholder="7x1234567" formControlName="phoneNumber" required>
+              <mat-error *ngIf="signUpForm.controls.phoneNumber.status!='VALID'">Doesn't seen a valid phone number
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!--mobile number end-->
+
+        <!--address-->
+        <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Enter your address</mat-label>
+        <input type="text" matInput placeholder="No.170 batagama South Kandana" formControlName="address" required ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)">
+        <mat-error *ngIf="signUpForm.controls.address.status!='VALID'">Required field!</mat-error>
+        </mat-form-field>
+        </div>
+        <!--address end-->
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+          <p>Please drag the marker to your home position in the map. Because we need your actual coordinates for our service.</p>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!--map-->
+        <div class="form-group">
+          <agm-map [latitude]="lat" [longitude]="long" [zoom]="10" style="width: 100%;height: 200px">
+
+            <agm-marker [latitude]="lat" [longitude]="long" [markerDraggable]="true"
+                        (dragEnd)="markerDragEnd($event)">
+
+              <agm-info-window>
+                <h3>HI</h3>
+                <p>you are here</p>
+              </agm-info-window>
+
+            </agm-marker>
+          </agm-map>
+        </div>
+
+        <!--NIC field-->
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Enter your NIC</mat-label>
+            <input type="text" matInput placeholder="806451763v" formControlName="nic" required>
+            <mat-error *ngIf="signUpForm.controls.nic.status!='VALID'">This is required field!</mat-error>
+          </mat-form-field>
+        </div>
+        <!--NIC field end-->
+
+
+        <!--email field-->
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Enter your email</mat-label>
+            <input type="email" matInput placeholder="email" formControlName="email" required>
+            <mat-error *ngIf="signUpForm.controls.email.status!='VALID'">This is required field!</mat-error>
+          </mat-form-field>
+        </div>
+        <!--email field end-->
+
+
+        <!--password-->
+        <div class="form-group">
+          <div class="example-container">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Enter your password</mat-label>
+              <input formControlName="password" matInput [type]="hide ? 'password' : 'text'">
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+        <!--password end-->
+        <mat-spinner-button [disabled]="signUpForm.invalid" (btnClick)="onSubmit()"
+                            [options]="btnOpts"></mat-spinner-button>
+
+        <!--[disabled]="signUpForm.invalid"-->
+
+      </form>
+
+
+    </section>
+  </section>
+</section>
+
+
+
+
+
+
+

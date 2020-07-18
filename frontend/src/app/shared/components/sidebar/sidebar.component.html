@@ -1,0 +1,97 @@
+<aside class="main-sidebar sidebar-dark-primary sidebar-dark-fuchsia elevation-4">
+  <!-- Brand Logo -->
+  <a href="index3.html" class="brand-link">
+    <img src="assets//AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+         style="opacity: .8">
+    <span class="brand-text font-weight-light">MercyCare Dash</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img [src]="avatarPath !=null ? avatarPath :'assets/avatar.png'" class="img-circle elevation-2" alt="User Image">
+      </div>
+      <div class="info">
+        <a routerLink="" class="d-block">{{name !=null? name : "MercyCare"}}</a>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+        <li class="nav-item">
+          <a  class="nav-link " routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" >
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Dashboard
+            </p>
+          </a>
+        </li>
+        <li *ngIf="!auth.isDoctor()" class="nav-item">
+          <a  class="nav-link " routerLink="appointments/" routerLinkActive="active" >
+            <i class="nav-icon fas fa-notes-medical"></i>
+            <p>
+              Appointments
+            </p>
+          </a>
+        </li>
+
+        <!--doctor items start-->
+        <li class="nav-item" *ngIf="auth.isDoctor()">
+          <a  class="nav-link " routerLink="d/appointments" routerLinkActive="active" [routerLinkActiveOptions]="{exact:false}">
+            <i class="nav-icon fas fa-notes-medical"></i>
+            <p>
+              My Appointments
+            </p>
+          </a>
+        </li>
+
+        <!--account-->
+        <li class="nav-item"  *ngIf="!auth.isDoctor()">
+        <a  class="nav-link " routerLink="profile" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+          <i class="nav-icon fas fa-user"></i>
+          <p>
+            Account
+          </p>
+        </a>
+      </li>
+
+        <!--doctor account-->
+        <li class="nav-item" *ngIf="auth.isDoctor()">
+          <a  class="nav-link " routerLink="d/profile" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            <i class="nav-icon fas fa-user"></i>
+            <p>
+              Account
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="!auth.isDoctor()">
+          <a  class="nav-link " routerLink="members/{{auth.getUser().id}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            <i class="nav-icon fas fa-users"></i>
+            <p>
+              Add Members
+            </p>
+          </a>
+        </li>
+
+        <!--logout-->
+        <li class="nav-item" (click)="onLogOut()">
+          <a  class="nav-link">
+            <i class="nav-icon fas fa-sign-out-alt"></i>
+            <p>
+              <!--<button mat-button (click)="onLogOut()">Log out</button>-->
+              Log out
+            </p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

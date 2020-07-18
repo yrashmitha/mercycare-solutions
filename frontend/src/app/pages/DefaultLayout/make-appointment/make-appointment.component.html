@@ -1,0 +1,70 @@
+<section class="container min-vh-100 flex-column justify-content-start d-flex">
+  <section class="row ">
+    <section class="col-12 col-md-8 col-lg-8 mx-auto">
+
+      <h1 class="text-center p-sm-1 p-lg-3 p-md-2">Make an appointment</h1>
+
+      <button mat-button>Use my details</button>
+
+      <form (ngSubmit)="onSubmit()" [formGroup]="appointmentForm"  class="shadow  bg-white rounded p-lg-5 p-md-3 p-sm-2 p-2 text-center">
+        <!--name-->
+        <!--<div class="form-group">-->
+          <!--<mat-form-field appearance="outline" class="w-100">-->
+            <!--<mat-label>Patient Name</mat-label>-->
+            <!--<input formControlName="name" type="text" matInput placeholder="Yohan" required>-->
+            <!--<mat-error>This is required field</mat-error>-->
+          <!--</mat-form-field>-->
+        <!--</div>-->
+
+        <!--address-->
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Enter your address</mat-label>
+            <input formControlName="address" type="text" matInput placeholder="No.170 batagama South Kandana" required
+                   ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
+                   (onAddressChange)="handleAddressChange($event)">
+            <mat-error>Requireds field!</mat-error>
+            <mat-hint>Please adjust the marker to your location</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!--map-->
+        <div class="form-group">
+          <agm-map [latitude]="lat" [longitude]="long" [zoom]="10" style="width: 100%;height: 200px">
+
+            <agm-marker [latitude]="lat" [longitude]="long" [markerDraggable]="true"
+                        (dragEnd)="markerDragEnd($event)">
+
+              <agm-info-window>
+                <h3>HI</h3>
+                <p>you are here</p>
+              </agm-info-window>
+
+            </agm-marker>
+          </agm-map>
+        </div>
+        <!--extra message-->
+
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Any special message</mat-label>
+            <mat-hint class="text-danger font-weight-bolder ">If you are using this service for anyone except you, Enter their details here.</mat-hint>
+            <textarea formControlName="extraMessage" matInput placeholder="This appointment for my neighbour"></textarea>
+          </mat-form-field>
+        </div>
+
+        <mat-spinner-button type="submit" [disabled]="!appointmentForm.valid"
+          [options]="btnOpts"></mat-spinner-button>
+      </form>
+
+
+    </section>
+  </section>
+</section>
+
+
+
+
+
+
+

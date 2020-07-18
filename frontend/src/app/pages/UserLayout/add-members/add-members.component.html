@@ -1,0 +1,137 @@
+<section class="row">
+  <h3 class="text-blue font-weight-bold">Add your family members to the system</h3>
+  <small class="form-text text-muted">
+    So they can log it to our system using your mobile number and use our service like you!
+  </small>
+
+  <mat-card class="col-12 col-md-12 col-lg-12">
+    <mat-card-content>
+      <ul class="list-group list-group-flush">
+        <li *ngFor="let member of myMembers" class="list-group-item">{{member.title}} {{member.firstName}} {{member.lastName}}
+          <div class="btn-group-sm float-right">
+          <button class="btn-sm btn btn-primary">Update</button>
+          <button class="btn-sm btn btn-danger ">Delete</button>
+          </div>
+        </li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+
+
+  <mat-card class="col-12 col-sm-12 col-md-12 col-lg-12">
+    <form [formGroup]="signUpForm">
+      <mat-horizontal-stepper labelPosition="bottom" formArrayName="formArray" [linear]="true" #stepper>
+        <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
+          <div>
+            <ng-template matStepLabel>Personal Details</ng-template>
+            <!--title-->
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Title</mat-label>
+              <mat-select formControlName="title">
+                <mat-option *ngFor="let title of titles" [value]="title.value">
+                  {{title.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!--firts name-->
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>First Name</mat-label>
+              <input type="text" matInput placeholder="Yohan" formControlName="firstName" required>
+            </mat-form-field>
+            <!--last name-->
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Last Name</mat-label>
+              <input type="text" matInput placeholder="Yohan" formControlName="lastName" required>
+            </mat-form-field>
+
+            <button mat-button matStepperNext type="button">Next</button>
+          </div>
+        </mat-step>
+        <mat-step formGroupName="1" [stepControl]="formArray.get([1])">
+          <ng-template matStepLabel>Address</ng-template>
+          <div class="btn-group-sm">
+            <button class="btn btn-sm btn-primary m-2" (click)="setPatientAddress()">Use my address</button>
+            <button class="btn btn-sm btn-secondary m-2" (click)="enterNewAddress()">Enter new address</button>
+          </div>
+
+          <div class="alert alert-primary" role="alert" *ngIf="alert==true">
+            Your address added. Go to next step!
+          </div>
+          <!--address-->
+          <mat-form-field *ngIf="showFields" appearance="outline" class="w-100">
+            <mat-label>Enter address</mat-label>
+            <input id="address" type="text" matInput placeholder="No.170..." formControlName="address" required
+                   ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
+                   (onAddressChange)="handleAddressChange($event)">
+          </mat-form-field>
+
+          <!--alert-->
+          <div *ngIf="showFields" class="alert alert-primary alert-dismissible fade show" role="alert">
+            <p>Please drag the marker to your home position in the map. Because we need your actual coordinates for our
+              service.</p>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!--map-->
+          <div *ngIf="showFields" class="form-group">
+            <agm-map [latitude]="lat" [longitude]="long" [zoom]="10" style="width: 100%;height: 200px">
+
+              <agm-marker [latitude]="lat" [longitude]="long" [markerDraggable]="true"
+                          (dragEnd)="markerDragEnd($event)">
+
+                <agm-info-window>
+                  <h3>Hi</h3>
+                  <p>you are here</p>
+                </agm-info-window>
+
+              </agm-marker>
+            </agm-map>
+          </div>
+          <div>
+            <button mat-button matStepperPrevious type="button">Back</button>
+            <button mat-button matStepperNext type="button">Next</button>
+          </div>
+        </mat-step>
+        <mat-step formGroupName="2" [stepControl]="formArray.get([2])">
+          <ng-template matStepLabel>Contact Details</ng-template>
+          <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Select area code(+94)</mat-label>
+
+                <mat-select placeholder="code">
+                  <mat-option value="option">+94</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-9">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Enter your mobile number</mat-label>
+                <input type="tel" matInput placeholder="7x1234567" formControlName="phoneNumber" required>
+              </mat-form-field>
+            </div>
+            <mat-form-field  appearance="outline" class="w-100">
+              <mat-label>Email address</mat-label>
+              <input type="email" matInput placeholder="" formControlName="email">
+              <mat-hint class="text-primary">Not required</mat-hint>
+            </mat-form-field>
+          </div>
+
+
+          <div>
+            <button mat-button matStepperPrevious type="button">Back</button>
+            <button mat-raised-button color="primary" matStepperNext type="button" (click)="onSubmit(stepper)">Done
+            </button>
+          </div>
+        </mat-step>
+
+        ...
+      </mat-horizontal-stepper>
+    </form>
+
+
+    <!--<button (click)="check()">check</button>-->
+
+  </mat-card>
+</section>

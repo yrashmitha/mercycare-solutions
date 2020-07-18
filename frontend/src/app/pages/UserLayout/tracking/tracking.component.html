@@ -1,0 +1,33 @@
+<p>tracking works!</p>
+{{ (appointmentRec | async)?.user_id }}
+<button (click)="check()">Points Array</button>
+<!--map-->
+<div class="mb-3">
+<agm-map  [zoom]="10" [latitude]="(appointmentRec|async)?.patient_coords.lat" [longitude]="(appointmentRec|async)?.patient_coords.long" style="width: 100%;height: 300px">
+
+<!--direction-->
+
+<!--direction end-->
+
+<!--patient position marker-->
+<agm-marker label="P" [latitude]="(appointmentRec|async)?.patient_coords.lat" [longitude]="(appointmentRec|async)?.patient_coords.long" [markerDraggable]="false">
+
+<agm-info-window>
+<p>{{(appointmentRec|async)?.patient_id}} is here!</p>
+</agm-info-window>
+</agm-marker>
+<!--patient position marker end-->
+
+<!--doctor position marker-->
+<agm-marker iconUrl="assets/map-doctor.png"  [latitude]="(appointmentRec|async)?.user_coords.lat" [longitude]="(appointmentRec|async)?.user_coords.long" >
+
+<agm-info-window>
+<p>Doctor is here!</p>
+</agm-info-window>
+
+</agm-marker>
+<!--doctor position marker end-->
+
+</agm-map>
+</div>
+<!--map end-->

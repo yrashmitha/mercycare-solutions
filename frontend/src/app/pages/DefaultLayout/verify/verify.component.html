@@ -1,0 +1,32 @@
+<section class="container-fluid min-vh-100 flex-column justify-content-center justify-content-lg-start  d-flex" id="main">
+  <section class="row ">
+    <section class="col-12 col-md-8 col-lg-8 mx-auto">
+      <h1 class="text-center p-sm-1 p-lg-3 p-md-2">Verify its you</h1>
+      <mat-card class="my-bg shadow text-center bg-white  p-lg-5 p-md-3 p-sm-2 p-2 m-4">
+        <img src="assets/otp.jpg" class="image img-circle img-fluid img-thumbnail" style="width: 100px;" alt="">
+        <p class="text-dark">We send a code to your mobile number.Please check the mobile.</p>
+        <mat-card-content>
+          <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)"  [config]="{length:5}"></ng-otp-input>
+        </mat-card-content>
+        <mat-card-footer>
+          <mat-card-actions>
+            <mat-spinner-button [disabled]="!valid" (btnClick)="onVerify()" [options]="btnOpts"></mat-spinner-button>
+
+            <!--<button mat-raised-button color="accent" [disabled]="!valid" (click)="onVerify()">Verify</button>-->
+          </mat-card-actions>
+        </mat-card-footer>
+      </mat-card>
+
+
+
+
+    </section>
+  </section>
+</section>
+
+
+
+
+
+
+

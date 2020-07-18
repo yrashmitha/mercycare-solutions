@@ -1,0 +1,180 @@
+<!--map-->
+<div *ngIf="appointment?.userCompleted == 0" class="mb-3">
+  <agm-map  [zoom]="10" [latitude]="patientGeoCoords?.lat" [longitude]="patientGeoCoords?.long" style="width: 100%;height: 300px">
+
+    <!--direction-->
+    <agm-direction [visible]="directionVisible"
+    [origin]="origin"
+    [destination]="destination"
+    >
+    </agm-direction>
+    <!--direction end-->
+
+    <!--patient position marker-->
+    <agm-marker label="P" [latitude]="patientGeoCoords?.lat" [longitude]="patientGeoCoords?.long" [markerDraggable]="false">
+
+      <agm-info-window>
+        <p>{{appointment?.patienFirstName}} is here!</p>
+      </agm-info-window>
+    </agm-marker>
+    <!--patient position marker end-->
+
+    <!--doctor position marker-->
+    <agm-marker  label="D" [latitude]="mylat" [longitude]="mylng" [markerDraggable]="true" (dragEnd)="dragEnd($event)">
+
+      <agm-info-window>
+        <p>You are here!</p>
+      </agm-info-window>
+
+    </agm-marker>
+    <!--doctor position marker end-->
+
+  </agm-map>
+</div>
+<!--map end-->
+
+<!--get distance and duration btn and appointment status button-->
+<div class="row d-flex justify-content-end mb-2 fc-button-group">
+  <!--decline appointment btn-->
+  <button *ngIf="appointment?.appointmentStatusId == 1"  (click)="getDetailsOfTrip()" mat-raised-button color="warn" class="">Decline</button>
+  <!--decline appointment btn end-->
+
+
+
+  <!--cancel appointment btn-->
+  <button *ngIf="appointment?.appointmentStatusId != 1 && appointment?.appointmentStatusId !=5 && appointment?.appointmentStatusId !=6  && appointment?.appointmentStatusId !=4"  mat-raised-button color="warn" class="ml-2">Cancel </button>
+  <!--cancel appointment btn end-->
+
+  <!--duration and distance button-->
+  <button *ngIf="auth.isDoctor() && appointment?.appointmentStatusId==1" (click)="getDetailsOfTrip()" mat-raised-button color="accent" class="ml-2">Get Distance and Time </button>
+  <!--duration and distance button end-->
+
+  <!--start tracking btn-->
+  <button *ngIf="(appointment?.trackingEnabled == 0 || appointment?.trackingEnabled == -1) && appointment?.distance!=null && (appointment?.appointmentStatusId == 2 || appointment?.appointmentStatusId == 3)" (click)="onTrackingStart()" mat-flat-button class="ml-2" color="accent">
+    <mat-icon>gps_fixed</mat-icon>
+    Start Tracking</button>
+  <!--start tracking btn end-->
+
+  <!--stop tracking btn-->
+  <button (click)="stopTracking()" *ngIf="appointment?.trackingEnabled==1 && appointment?.userCompleted != 1" mat-flat-button color="warn" class="ml-2">
+
+    <mat-icon>gps_off</mat-icon>
+    Stop Tracking</button>
+  <!--stop tracking btn end-->
+
+  <!--appointment status btn-->
+  <button mat-raised-button class="ml-2">{{appointment?.appointmentStatusName}}</button>
+  <!--appointment status btn end-->
+
+</div>
+<!--get distance and duration btn and appointment status button end-->
+
+
+<!--distance and duration card-->
+<div class="row m-3">
+  <div class="col-12 col-md-12 col-lg-8 mx-auto">
+    <mat-card>
+      <mat-card-content>
+        Distance : {{appointment?.distance!= null ? appointment?.distance  : (appointment?.distance== null ? distance :"N/A")}} Km<br>
+        Duration : {{appointment?.duration!= null ? appointment?.duration : (appointment?.duration== null ? duration :"N/A")}} <br>
+        Price: Rs. {{appointment?.price!= null ? appointment?.price : price}}
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<!--distance and duration card end-->
+
+<!--price card-->
+<div class="row m-3" *ngIf="appointment?.distance">
+  <div class="col-12 col-md-12 col-lg-8 mx-auto">
+    <mat-card>
+      <mat-card-content>
+        <div>
+        Price per KM : Rs. {{appointment?.pricePerKm}}
+        </div>
+        <div>
+          Price per hour : Rs. {{appointment?.pricePerHour}}
+        </div>
+          <mat-form-field class="example-form-field w-100" appearance="fill" *ngIf="appointment?.appointmentStatusId == 2 || appointment?.appointmentStatusId == 3">
+          <mat-label>Spent time in hours</mat-label>
+          <input (change)="setPrice()" matInput type="number" [(ngModel)]="value" [disabled]="appointment?.userCompleted ==1">
+          <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <div class="w-10 text-center bg-dark rounded-pill">
+          <h1>Rs. {{appointment?.price !=null ? appointment?.price : calculatedPrice}}</h1>
+        </div>
+        <!--mark as complete-->
+        <button (click)="markAsComplete()" *ngIf="(appointment?.appointmentStatusId == 2 || appointment?.appointmentStatusId == 3) && appointment?.userCompleted ==0 "  mat-raised-button color="primary" class="">Mark as complete </button>
+        <!--mark as complete end-->
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<!--price card end-->
+
+
+<!--alert msg-->
+<div [className]="newAlertClass" role="alert">
+  <p>{{alertMsg}}</p>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<!--alert msg end-->
+
+<!--patient details and transport type section-->
+<div class="row" >
+  <!--patient details-->
+  <div class="col-12 col-md-12 col-lg-6">
+    <mat-card class="shadow p-3 mb-5 bg-white rounded">
+      <mat-card-title>
+        Patient Details
+      </mat-card-title>
+      <mat-card-content>
+        <div class="form-inline w-100 m-2">
+          <div class="form-group w-100 flex-row justify-content-between">
+            <label>Name</label>
+            <input class="form-control mx-sm-3" disabled
+                   value="{{appointment?.patientTitle}} {{appointment?.patienFirstName}} {{appointment?.patientLastName}}">
+          </div>
+        </div>
+        <div class="form-inline w-100 m-2 mt-2">
+          <div class="form-group w-100 flex-row justify-content-between">
+            <label>Mobile Number</label>
+            <input class="form-control mx-sm-3" disabled value="{{appointment?.patientMobileNumber}}">
+          </div>
+        </div>
+        <div class="form-inline w-100 m-2 mt-2">
+          <div class="form-group w-100 flex-row justify-content-between">
+            <label>Extra Message</label>
+            <textarea class="form-control mx-sm-3" disabled value="{{appointment?.extraMessage}}"></textarea>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!--patient details end-->
+
+  <!--transport type selection-->
+  <div class="col-12 col-md-12 col-lg-6" *ngIf="appointment?.appointmentStatusId==1">
+    <form [formGroup]="approveForm">
+      <div class="form-group">
+        <mat-form-field class="w-100">
+          <mat-label>Select a transport type</mat-label>
+          <mat-select formControlName="type" required [(value)]="selected">
+            <mat-option [value]="null">None</mat-option>
+            <mat-option *ngFor="let tr of transportsArr" [value]="tr.id">{{tr.type}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <button *ngIf="auth.isDoctor()" (click)="onApprove()" type="button" mat-raised-button color="primary" class="ml-2">Approve </button>
+    </form>
+  </div>
+  <!--transport type selection end-->
+
+</div>
+<!--patient details and transport type section end-->
+
+<button (click)="check()">Check</button>

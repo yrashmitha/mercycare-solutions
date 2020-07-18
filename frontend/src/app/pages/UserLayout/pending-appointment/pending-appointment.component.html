@@ -1,0 +1,15 @@
+<mat-expansion-panel *ngFor="let app of appointmentArray" (opened)="panelOpenState = true"
+                     (closed)="panelOpenState = false" class="mb-2">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <h6>{{app.patientTitle}} {{app.patienFirstName}} {{app.patientLastName}}</h6>
+    </mat-panel-title>
+    <mat-panel-description>
+      {{app.appointmentId}} <span class="badge badge-primary">{{app.appointmentStatusName}}</span>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div>
+    {{app.createdAt |date:'short'}}
+  </div>
+  <button mat-flat-button color="primary" (click)="onClick(app.appointmentId)">View Details</button>
+</mat-expansion-panel>
