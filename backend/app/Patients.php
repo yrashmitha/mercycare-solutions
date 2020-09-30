@@ -20,7 +20,7 @@ class Patients extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email','f_name','l_name','title','nic','phone_num','address'
+        'name', 'email','f_name','l_name','title','nic','phone_num','address','geo_cords'
     ];
 
     /**
@@ -161,6 +161,24 @@ class Patients extends Authenticatable implements JWTSubject
         return response()->json($res);
     }
 
+    public function updateMemberPatientProfile($memberId,$email,$firstName,$lastName,$mobileNumber,$title,$address,$geoCoords)
+    {
+        try {
+            $res=Patients::find($memberId)
+                ->update([
+                    "email"=>$email,
+                    "f_name"=>$firstName,
+                    "l_name"=>$lastName,
+                    "title"=>$title,
+                    'address'=>$address,
+                    'mobile_num'=>$mobileNumber,
+                    'geo_cords'=>$geoCoords,
+                ]);
+            return response()->json('Successfully Updated.');
+        }catch (\Exception $e){
+            return response()->json($e->getMessage());
+        }
+    }
     public function loginPatient($request)
     {
 

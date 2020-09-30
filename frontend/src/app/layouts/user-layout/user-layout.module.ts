@@ -13,13 +13,14 @@ import {TrackingComponent} from "../../pages/UserLayout/tracking/tracking.compon
 import {MatExpansionModule} from "@angular/material/expansion";
 import {ProfileComponent} from "../../pages/UserLayout/profile/profile.component";
 import {DoctorProfileComponent} from "../../pages/UserLayout/doctor-profile/doctor-profile.component";
+import {UpdateMemberComponent} from "../../pages/UserLayout/dialog/update-member/update-member.component";
 
 
 
 @NgModule({
   declarations: [DashboardComponent,UserLayoutComponent,AppointmentsComponent,
     PendingAppointmentComponent,AppointmentDetailsComponent,AppointmentDetailsForDoctorComponent,
-    TrackingComponent,ProfileComponent,DoctorProfileComponent],
+    TrackingComponent,ProfileComponent,DoctorProfileComponent,UpdateMemberComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -28,6 +29,9 @@ import {DoctorProfileComponent} from "../../pages/UserLayout/doctor-profile/doct
       apiKey:'AIzaSyAYuDnSvsQCeSl9NcOtIXSuDJyxGJHerTo'
     }),
     MatExpansionModule,
-  ]
+  ],
+  entryComponents: [
+    UpdateMemberComponent
+  ],
 })
 export class UserLayoutModule { }

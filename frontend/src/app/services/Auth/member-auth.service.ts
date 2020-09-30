@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Patient} from "../../shared/models/patient";
 import {BackendData} from "../../shared/models/backend-data";
 import {map} from "rxjs/operators";
+import {MemberPatient} from "../../shared/models/member-patient";
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,12 @@ export class MemberAuthService {
 
   }
 
-  getMyMembers():Observable<Patient[]>{
-    return this.http.get<Patient[]>(BackendData.backendApiUrl+'member/getall')
+  getMyMembers():Observable<MemberPatient[]>{
+    return this.http.get<MemberPatient[]>(BackendData.backendApiUrl+'member/getall')
       .pipe(map((res:any)=>{
         let arr=[];
         res.forEach(obj=>{
-          let p=new Patient();
+          let p=new MemberPatient();
           p.deserialize(obj);
           arr.push(p);
         });
@@ -32,6 +33,10 @@ export class MemberAuthService {
 
   }
 
+  updateMemberDetails(form:FormData,memberId){
+    console.log(form)
+    return this.http.post(BackendData.backendApiUrl+'member/update/'+memberId,form);
+  }
   openSnackBar(msg) {
     this.snack.open(msg, 'Ok', {
       verticalPosition: "bottom",

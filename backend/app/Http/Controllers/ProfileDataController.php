@@ -8,6 +8,7 @@ use App\User;
 use App\UserAvatar;
 use App\UserSpecialization;
 use App\UserTransport;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -245,5 +246,13 @@ class ProfileDataController extends Controller
 
         return response()->json($user);
 
+    }
+
+
+
+    public function time()
+    {
+        return "hi";
+        return Carbon::now();
     }
 }

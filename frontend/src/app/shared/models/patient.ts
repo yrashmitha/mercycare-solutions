@@ -4,7 +4,8 @@ import {Serializable, Serialize, SerializeProperty} from "ts-serializer";
 export class Patient extends Serializable{
   @SerializeProperty({
     map:'id'
-  }) private _id:number;
+  })
+  private _id:number;
   @SerializeProperty({
     map:'f_name'
   }) private _firstName:string;
@@ -49,8 +50,18 @@ export class Patient extends Serializable{
     map:'password'
   }) private _password:string;
 
+  @SerializeProperty({
+    map:'geo_cords'
+  }) private _geoCoords:string;
 
 
+  get geoCoords(): string {
+    return this._geoCoords;
+  }
+
+  set geoCoords(value: string) {
+    this._geoCoords = value;
+  }
 
   get id(): number {
     return this._id;

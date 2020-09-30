@@ -62,10 +62,12 @@ Route::post('d/specializationupdate',"ProfileDataController@updateSpecialization
 //Route::get('app',"AppointmentController@index")->middleware(["auth"]);
 Route::post('member/register', 'MemberAuthController@register');
 Route::get('member/getall', 'MemberDataController@getMyAllMembers');
-
+Route::post('member/update/{id}', 'MemberDataController@updateMember');
 //member/getall
 
 Route::post('user/register', 'UserAuthController@register');
 Route::post('user/login', 'UserAuthController@login');
 Route::get('user/me', 'UserAuthController@me')->middleware('auth:api');
 Route::get('fire','ProfileDataController@try');
+
+Route::get("time","Controller@time");

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Address} from "ngx-google-places-autocomplete/objects/address";
 import {ActivatedRoute} from "@angular/router";
@@ -6,11 +6,17 @@ import {ProfileDataService} from "../../../services/Profile/profile-data.service
 import {PatientProfile} from "../../../shared/models/patient-profile";
 import {MemberAuthService} from "../../../services/Auth/member-auth.service";
 import {Patient} from "../../../shared/models/patient";
-declare var $:any;
+import {MatDialog} from "@angular/material/dialog";
+import {UpdateMemberComponent} from "../dialog/update-member/update-member.component";
+import {from} from "rxjs";
+import {MemberPatient} from "../../../shared/models/member-patient";
+
+declare var $: any;
 
 interface Title {
   value: string;
 }
+
 @Component({
   selector: 'app-add-members',
   templateUrl: './add-members.component.html',
@@ -21,7 +27,7 @@ export class AddMembersComponent implements OnInit {
   options = {};
   lat;
   long;
-  alert=false;
+  alert = false;
   titles: Title[] = [
     {value: 'Mr'},
     {value: 'Mrs'},
@@ -30,17 +36,20 @@ export class AddMembersComponent implements OnInit {
     {value: 'Doctor'},
 
   ];
-  typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
 
-  showFields=false;
-  myMembers:Patient[]=[];
+  showFields = false;
+  myMembers: MemberPatient[] = [];
   id;
-  patient:PatientProfile;
-  constructor(private _formBuilder: FormBuilder,private route:ActivatedRoute,
-              private profileService:ProfileDataService,private memberService:MemberAuthService) { }
+  patient: PatientProfile;
+
+  constructor(private _formBuilder: FormBuilder, private route: ActivatedRoute,
+              private profileService: ProfileDataService,
+              private memberService: MemberAuthService,
+              private dialog: MatDialog,private memberAuth:MemberAuthService) {
+  }
 
   ngOnInit(): void {
-    this.id=this.route.snapshot.paramMap.get('id');
+    this.id = this.route.snapshot.paramMap.get('id');
 
     this.getMyMembers();
 
@@ -93,8 +102,8 @@ export class AddMembersComponent implements OnInit {
     this.lat = address.geometry.location.lat();
     this.long = address.geometry.location.lng();
     console.log(address)
-    let x=$("#address").val();
-    this.address.patchValue({address:x});
+    let x = $("#address").val();
+    this.address.patchValue({address: x});
     console.log(this.address.value.address);
   }
 
@@ -104,64 +113,111 @@ export class AddMembersComponent implements OnInit {
     this.lat = event.coords.lat;
   }
 
-  get formArray(): AbstractControl | null { return this.signUpForm.get('formArray'); }
+  get formArray(): AbstractControl | null {
+    return this.signUpForm.get('formArray');
+  }
 
   get address() {
     return this.signUpForm.get('formArray').get([1]);
   }
-  get names(){
+
+  get names() {
     return this.signUpForm.get('formArray').get([0]);
   }
 
-  get phoneNumber(){
+  get phoneNumber() {
     return this.signUpForm.get('formArray').get([2]);
   }
 
-  setPatientAddress(){
+  setPatientAddress() {
     this.address.setValue({
-      address:this.patient.address
+      address: this.patient.address
     });
-    let coords=JSON.parse(this.patient.geoCoords);
-    this.lat=coords.lat;
-    this.long=coords.long;
+    let coords = JSON.parse(this.patient.geoCoords);
+    this.lat = coords.lat;
+    this.long = coords.long;
     console.log(this.address.value.address)
-    this.alert=true;
+    this.alert = true;
   }
 
-  enterNewAddress(){
-    this.alert=false;
-    this.showFields=true;
+  enterNewAddress() {
+    this.alert = false;
+    this.showFields = true;
   }
 
-  onSubmit(stepper){
-    this.showFields=false;
-    this.alert=false;
-    let formData=new FormData();
-    formData.append("f_name",this.names.value.firstName);
-    formData.append("l_name",this.names.value.lastName);
-    formData.append("title",this.names.value.title);
-    formData.append("address",this.address.value.address);
-    formData.append("mobile_num",'+94'+this.phoneNumber.value.phoneNumber);
-    formData.append("email",this.phoneNumber.value.email);
+  onSubmit(stepper) {
+    this.showFields = false;
+    this.alert = false;
+    let formData = new FormData();
+    formData.append("f_name", this.names.value.firstName);
+    formData.append("l_name", this.names.value.lastName);
+    formData.append("title", this.names.value.title);
+    formData.append("address", this.address.value.address);
+    formData.append("mobile_num", '+94' + this.phoneNumber.value.phoneNumber);
+    formData.append("email", this.phoneNumber.value.email);
 
-    let coords={
-      lat:this.lat,
-      long:this.long
+    let coords = {
+      lat: this.lat,
+      long: this.long
     };
-    formData.append("geo_coords",JSON.stringify(coords));
+    formData.append("geo_coords", JSON.stringify(coords));
 
-    this.memberService.addMember(formData).subscribe((res:any)=>{
+    this.memberService.addMember(formData).subscribe((res: any) => {
       this.memberService.openSnackBar(res.msg);
+      this.getMyMembers();
       // stepper.reset();
     })
 
 
   }
 
-  getMyMembers(){
-    this.memberService.getMyMembers().subscribe(res=>{
-      this.myMembers=res;
+  getMyMembers() {
+    this.memberService.getMyMembers().subscribe(res => {
+      this.myMembers = res;
     })
   }
 
+  onClickUpdate(member: MemberPatient) {
+    let title = member.title;
+    let firstName = member.firstName;
+    let lastName = member.lastName;
+    let address = member.address;
+    let coords = JSON.parse(member.geoCoords)
+    let mobileNumber = member.mobileNumber;
+    let memberId=member.id;
+    let email=member.email;
+    let dialogRef = this.dialog.open(UpdateMemberComponent, {
+      data: {
+        title: title,
+        firstName: firstName,
+        lastName: lastName,
+        address: address,
+        coords: {
+          lat: coords.lat,
+          long: coords.long
+        },
+        mobileNumber: mobileNumber,
+        email:email
+      }
+    })
+    dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
+      let form=new FormData();
+      if (res.firstName){
+        form.append("f_name", res.firstName);
+        form.append("l_name", res.lastName);
+        form.append("title", res.title);
+        form.append("address", res.address);
+        form.append("mobile_num",res.mobileNumber);
+        form.append("email", res.email);
+        form.append("geo_coords", JSON.stringify(res.coords));
+        console.log(JSON.stringify(res.coords))
+
+        this.memberAuth.updateMemberDetails(form,memberId).subscribe(res=>{
+          this.memberAuth.openSnackBar(res)
+          this.getMyMembers();
+        })
+      }
+    })
+  }
 }

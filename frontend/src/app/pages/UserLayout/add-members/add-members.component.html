@@ -4,12 +4,12 @@
     So they can log it to our system using your mobile number and use our service like you!
   </small>
 
-  <mat-card class="col-12 col-md-12 col-lg-12">
+  <mat-card class="col-12 col-md-12 col-lg-12 mb-2" >
     <mat-card-content>
       <ul class="list-group list-group-flush">
         <li *ngFor="let member of myMembers" class="list-group-item">{{member.title}} {{member.firstName}} {{member.lastName}}
           <div class="btn-group-sm float-right">
-          <button class="btn-sm btn btn-primary">Update</button>
+          <button class="btn-sm btn btn-primary" (click)="onClickUpdate(member)">Update</button>
           <button class="btn-sm btn btn-danger ">Delete</button>
           </div>
         </li>
@@ -99,7 +99,6 @@
             <div class="col-sm-12 col-md-6 col-lg-3">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Select area code(+94)</mat-label>
-
                 <mat-select placeholder="code">
                   <mat-option value="option">+94</mat-option>
                 </mat-select>

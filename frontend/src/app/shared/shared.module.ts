@@ -31,6 +31,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {GooglePlaceModule} from "ngx-google-places-autocomplete";
 import {MatStepperModule} from "@angular/material/stepper";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 
@@ -73,6 +74,7 @@ import {MatStepperModule} from "@angular/material/stepper";
     MatSlideToggleModule,
     GooglePlaceModule,
     MatStepperModule,
+    MatDialogModule
 
   ],
   exports:[DefaultNavbarComponent,MatSnackBarModule,FooterComponent,SidebarComponent,UserHeaderNavComponent,
@@ -80,7 +82,7 @@ import {MatStepperModule} from "@angular/material/stepper";
     MatDividerModule,NgbPaginationModule,AngularFireModule, AngularFireAuthModule,
     AngularFirestoreModule,AgmCoreModule,MatCardModule,MatButtonModule,MatBadgeModule,
     AgmDirectionModule,MatSelectModule,MatIconModule,ReactiveFormsModule,
-    FormsModule,MatInputModule,MatListModule,MatSlideToggleModule,GooglePlaceModule,MatStepperModule
+    FormsModule,MatInputModule,MatListModule,MatSlideToggleModule,GooglePlaceModule,MatStepperModule,MatDialogModule
   ]
 
 })

@@ -1,0 +1,71 @@
+<h2 mat-dialog-title>Update member {{data.firstName}}</h2>
+<mat-dialog-content>
+  <mat-form-field class="w-100" appearance="fill">
+    <mat-label>Title</mat-label>
+    <mat-select [(ngModel)]="data.title">
+      <mat-option *ngFor="let title of titles" [value]="title.value">
+        {{title.value}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>First Name</mat-label>
+    <input type="text" [value]="data.firstName" [(ngModel)]="data.firstName" matInput placeholder="Yohan"  required>
+  </mat-form-field>
+  <!--last name-->
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Last Name</mat-label>
+    <input type="text" [value]="data.lastName" matInput placeholder="Yohan" [(ngModel)]="data.lastName" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Email</mat-label>
+    <input type="text" [value]="data.email" matInput placeholder="Yohan" [(ngModel)]="data.email" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Mobile Number</mat-label>
+    <input type="text" [value]="data.mobileNumber" matInput placeholder="Yohan" [(ngModel)]="data.mobileNumber" required>
+  </mat-form-field>
+
+
+
+  <mat-form-field  appearance="fill" class="w-100">
+    <mat-label>Enter address</mat-label>
+    <input id="address" (keydown)="change()" [(ngModel)]="data.address" type="text" matInput placeholder="No.170..." required
+           ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
+           (onAddressChange)="handleAddressChange($event)">
+  </mat-form-field>
+
+  <!--alert-->
+  <div  class="alert alert-primary alert-dismissible fade show" role="alert">
+    <p>Please drag the marker to your home position in the map. Because we need your actual coordinates for our
+      service.</p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <!--map-->
+  <div  class="form-group">
+    <agm-map [latitude]="data.coords.lat" [longitude]="data.coords.long" [zoom]="10" style="width: 100%;height: 200px">
+
+      <agm-marker [latitude]="data.coords.lat" [longitude]="data.coords.long" [markerDraggable]="true"
+                  (dragEnd)="markerDragEnd($event)">
+
+        <agm-info-window>
+          <h3>Hi</h3>
+          <p>This is your place.</p>
+        </agm-info-window>
+
+      </agm-marker>
+    </agm-map>
+  </div>
+
+
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-stroked-button color="primary" [mat-dialog-close]="data">Update</button>
+</mat-dialog-actions>
