@@ -13,6 +13,7 @@ services:
       - php
       - mysql
       - phpmyadmin
+      - frontend
 
   php:
     build:
@@ -35,6 +36,8 @@ services:
       dockerfile: composer.dockerfile
     volumes:
     - ./backend:/var/www/html
+
+
   npm:
     image: node:14
     working_dir: /var/www/html
@@ -62,4 +65,11 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: frontend.dockerfile
+    ports:
+    - "4200:80"
 
