@@ -33,7 +33,7 @@ import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.compone
     MatSelectModule,
     NgbPaginationModule,
     AgmCoreModule.forRoot({
-      apiKey:'AIzaSyAYuDnSvsQCeSl9NcOtIXSuDJyxGJHerTo'
+      apiKey:'AIzaSyB6zk7dmppRilAba6JSCz_0698mN7GovRQ'
     })
 
   ],

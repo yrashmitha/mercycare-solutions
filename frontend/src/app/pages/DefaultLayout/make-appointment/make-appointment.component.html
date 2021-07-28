@@ -5,179 +5,184 @@
       <h1 class="text-center p-sm-1 p-lg-3 p-md-2">Make an appointment</h1>
 
       <button mat-button>Use my details</button>
-      <mat-card class="col-12 col-sm-12 col-md-12 col-lg-12">
-        <form [formGroup]="appointmentForm">
-          <mat-horizontal-stepper  labelPosition="bottom" formArrayName="formArray" [linear]="true" #stepper>
-            <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
-              <div>
-                <ng-template matStepLabel>Personal Details</ng-template>
-                <!--title-->
+<!--      <mat-card class="col-12 col-sm-12 col-md-12 col-lg-12">-->
+<!--        <form [formGroup]="appointmentForm">-->
+<!--          <mat-horizontal-stepper  labelPosition="bottom" formArrayName="formArray" [linear]="true" #stepper>-->
+<!--            <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">-->
+<!--              <div>-->
+<!--                <ng-template matStepLabel>Personal Details</ng-template>-->
+<!--                &lt;!&ndash;title&ndash;&gt;-->
 
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>This appointment for</mat-label>
-                  <mat-select (selectionChange)="appointmentforSelectionChange($event)">
-                    <mat-option value="me">
-                     Me
-                    </mat-option>
-                    <mat-option value="relative">
-                      Relative
-                    </mat-option>
-                    <mat-option value="another">
-                      Another Person
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+<!--                <mat-form-field class="w-100" appearance="outline">-->
+<!--                  <mat-label>This appointment for</mat-label>-->
+<!--                  <mat-select (selectionChange)="appointmentforSelectionChange($event)">-->
+<!--                    <mat-option value="me">-->
+<!--                     Me-->
+<!--                    </mat-option>-->
+<!--                    <mat-option value="relative">-->
+<!--                      Relative-->
+<!--                    </mat-option>-->
+<!--                    <mat-option value="another">-->
+<!--                      Another Person-->
+<!--                    </mat-option>-->
+<!--                  </mat-select>-->
+<!--                </mat-form-field>-->
 
-                <mat-form-field class="w-100" appearance="outline" >
-                  <mat-label>Title</mat-label>
-                  <mat-select formControlName="title">
-                    <mat-option *ngFor="let title of titles" [value]="title.value">
-                      {{title.value}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <!--firts name-->
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>First Name</mat-label>
-                  <input type="text" matInput placeholder="Yohan" formControlName="firstName" required>
-                </mat-form-field>
-                <!--last name-->
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Last Name</mat-label>
-                  <input type="text" matInput placeholder="Yohan" formControlName="lastName" required>
-                </mat-form-field>
+<!--                <mat-form-field class="w-100" appearance="outline" >-->
+<!--                  <mat-label>Title</mat-label>-->
+<!--                  <mat-select formControlName="title">-->
+<!--                    <mat-option *ngFor="let title of titles" [value]="title.value">-->
+<!--                      {{title.value}}-->
+<!--                    </mat-option>-->
+<!--                  </mat-select>-->
+<!--                </mat-form-field>-->
+<!--                &lt;!&ndash;firts name&ndash;&gt;-->
+<!--                <mat-form-field appearance="outline" class="w-100">-->
+<!--                  <mat-label>First Name</mat-label>-->
+<!--                  <input type="text" matInput placeholder="Yohan" formControlName="firstName" required>-->
+<!--                </mat-form-field>-->
+<!--                &lt;!&ndash;last name&ndash;&gt;-->
+<!--                <mat-form-field appearance="outline" class="w-100">-->
+<!--                  <mat-label>Last Name</mat-label>-->
+<!--                  <input type="text" matInput placeholder="Yohan" formControlName="lastName" required>-->
+<!--                </mat-form-field>-->
 
-                <button mat-button matStepperNext type="button">Next</button>
-              </div>
-            </mat-step>
-            <mat-step formGroupName="1" [stepControl]="formArray.get([1])">
-              <ng-template matStepLabel>Address</ng-template>
-              <div class="btn-group-sm">
-                <!--                <button class="btn btn-sm btn-primary m-2" (click)="setPatientAddress()">Use my address</button>-->
-                <!--                <button class="btn btn-sm btn-secondary m-2" (click)="enterNewAddress()">Enter new address</button>-->
-              </div>
+<!--                <button mat-button matStepperNext type="button">Next</button>-->
+<!--              </div>-->
+<!--            </mat-step>-->
+<!--            <mat-step formGroupName="1" [stepControl]="formArray.get([1])">-->
+<!--              <ng-template matStepLabel>Address</ng-template>-->
+<!--              <div class="btn-group-sm">-->
+<!--                                <button class="btn btn-sm btn-primary m-2" (click)="setPatientAddress()">Use my address</button>-->
+<!--                                <button class="btn btn-sm btn-secondary m-2" (click)="enterNewAddress()">Enter new address</button>-->
+<!--              </div>-->
 
-              <div class="alert alert-primary" role="alert" >
-                Your address added. Go to next step!
-              </div>
-              <!--address-->
-              <!--              <mat-form-field *ngIf="showFields" appearance="outline" class="w-100">-->
-              <!--                <mat-label>Enter address</mat-label>-->
-              <!--                <input id="address" type="text" matInput placeholder="No.170..." formControlName="address" required-->
-              <!--                       ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"-->
-              <!--                       (onAddressChange)="handleAddressChange($event)">-->
-              <!--              </mat-form-field>-->
+<!--              <div class="alert alert-primary" role="alert" >-->
+<!--                Your address added. Go to next step!-->
+<!--              </div>-->
+<!--              address-->
+<!--                            <mat-form-field *ngIf="showFields" appearance="outline" class="w-100">-->
+<!--                              <mat-label>Enter address</mat-label>-->
+<!--                              <input id="address" type="text" matInput placeholder="No.170..." formControlName="address" required-->
+<!--                                     ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"-->
+<!--                                     (onAddressChange)="handleAddressChange($event)">-->
+<!--                            </mat-form-field>-->
 
-              <!--              &lt;!&ndash;alert&ndash;&gt;-->
-              <!--              <div *ngIf="showFields" class="alert alert-primary alert-dismissible fade show" role="alert">-->
-              <!--                <p>Please drag the marker to your home position in the map. Because we need your actual coordinates for our-->
-              <!--                  service.</p>-->
-              <!--                <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
-              <!--                  <span aria-hidden="true">&times;</span>-->
-              <!--                </button>-->
-              <!--              </div>-->
-              <!--              &lt;!&ndash;map&ndash;&gt;-->
-              <!--              <div *ngIf="showFields" class="form-group">-->
-              <!--                <agm-map [latitude]="lat" [longitude]="long" [zoom]="10" style="width: 100%;height: 200px">-->
+<!--                            &lt;!&ndash;alert&ndash;&gt;-->
+<!--                            <div *ngIf="showFields" class="alert alert-primary alert-dismissible fade show" role="alert">-->
+<!--                              <p>Please drag the marker to your home position in the map. Because we need your actual coordinates for our-->
+<!--                                service.</p>-->
+<!--                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+<!--                                <span aria-hidden="true">&times;</span>-->
+<!--                              </button>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash;map&ndash;&gt;-->
+<!--                            <div *ngIf="showFields" class="form-group">-->
+<!--                              <agm-map [latitude]="lat" [longitude]="long" [zoom]="10" style="width: 100%;height: 200px">-->
 
-              <!--                  <agm-marker [latitude]="lat" [longitude]="long" [markerDraggable]="true"-->
-              <!--                              (dragEnd)="markerDragEnd($event)">-->
+<!--                                <agm-marker [latitude]="lat" [longitude]="long" [markerDraggable]="true"-->
+<!--                                            (dragEnd)="markerDragEnd($event)">-->
 
-              <!--                    <agm-info-window>-->
-              <!--                      <h3>Hi</h3>-->
-              <!--                      <p>you are here</p>-->
-              <!--                    </agm-info-window>-->
+<!--                                  <agm-info-window>-->
+<!--                                    <h3>Hi</h3>-->
+<!--                                    <p>you are here</p>-->
+<!--                                  </agm-info-window>-->
 
-              <!--                  </agm-marker>-->
-              <!--                </agm-map>-->
-              <!--              </div>-->
-              <div>
-                <button mat-button matStepperPrevious type="button">Back</button>
-                <button mat-button matStepperNext type="button">Next</button>
-              </div>
-            </mat-step>
-            <mat-step formGroupName="2" [stepControl]="formArray.get([2])">
-              <ng-template matStepLabel>Contact Details</ng-template>
-              <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-3">
+<!--                                </agm-marker>-->
+<!--                              </agm-map>-->
+<!--                            </div>-->
+<!--              <div>-->
+<!--                <button mat-button matStepperPrevious type="button">Back</button>-->
+<!--                <button mat-button matStepperNext type="button">Next</button>-->
+<!--              </div>-->
+<!--            </mat-step>-->
+<!--            <mat-step formGroupName="2" [stepControl]="formArray.get([2])">-->
+<!--              <ng-template matStepLabel>Contact Details</ng-template>-->
+<!--              <div class="row">-->
+<!--                <div class="col-sm-12 col-md-6 col-lg-3">-->
+<!--                  <mat-form-field appearance="outline" class="w-100">-->
+<!--                    <mat-label>Select area code(+94)</mat-label>-->
+<!--                    <mat-select placeholder="code">-->
+<!--                      <mat-option value="option">+94</mat-option>-->
+<!--                    </mat-select>-->
+<!--                  </mat-form-field>-->
+<!--                </div>-->
+<!--                <div class="col-sm-12 col-md-6 col-lg-9">-->
+<!--                  <mat-form-field appearance="outline" class="w-100">-->
+<!--                    <mat-label>Enter your mobile number</mat-label>-->
+<!--                    <input type="tel" matInput placeholder="7x1234567" formControlName="phoneNumber" required>-->
+<!--                  </mat-form-field>-->
+<!--                </div>-->
+<!--                <mat-form-field  appearance="outline" class="w-100">-->
+<!--                  <mat-label>Email address</mat-label>-->
+<!--                  <input type="email" matInput placeholder="" formControlName="email">-->
+<!--                  <mat-hint class="text-primary">Not required</mat-hint>-->
+<!--                </mat-form-field>-->
+<!--              </div>-->
+
+
+<!--              <div>-->
+<!--                <button mat-button matStepperPrevious type="button">Back</button>-->
+<!--                <button mat-raised-button color="primary" matStepperNext type="button" >Done-->
+<!--                </button>-->
+<!--              </div>-->
+<!--            </mat-step>-->
+
+<!--            ...-->
+<!--          </mat-horizontal-stepper>-->
+<!--        </form>-->
+
+
+<!--        <button (click)="check()">check</button>-->
+
+<!--      </mat-card>-->
+
+
+      <form (ngSubmit)="onSubmit()" [formGroup]="appointmentForm"  class="shadow  bg-white rounded p-lg-5 p-md-3 p-sm-2 p-2 text-center">
+        <div class="btn-group-sm">
+          <button type="button" class="btn btn-sm btn-primary m-2" (click)="setPatientAddress()">Use my address</button>
+<!--          <button class="btn btn-sm btn-secondary m-2" (click)="enterNewAddress()">Enter new address</button>-->
+        </div>
+                <!--address-->
+                <div class="form-group">
                   <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Select area code(+94)</mat-label>
-                    <mat-select placeholder="code">
-                      <mat-option value="option">+94</mat-option>
-                    </mat-select>
+                    <mat-label>Enter your address</mat-label>
+                    <input id="address" formControlName="address" type="text" matInput placeholder="No.170 batagama South Kandana" required
+                           ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
+                           (onAddressChange)="handleAddressChange($event)">
+                    <mat-error>Requireds field!</mat-error>
+                    <mat-hint>Please adjust the marker to your location</mat-hint>
                   </mat-form-field>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-9">
-                  <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Enter your mobile number</mat-label>
-                    <input type="tel" matInput placeholder="7x1234567" formControlName="phoneNumber" required>
+
+                <!--map-->
+                <div class="form-group">
+                  <agm-map [latitude]="lat" [longitude]="long" [zoom]="10" style="width: 100%;height: 200px">
+
+                    <agm-marker [latitude]="lat" [longitude]="long" [markerDraggable]="true"
+                                (dragEnd)="markerDragEnd($event)">
+
+                      <agm-info-window>
+                        <h3>HI</h3>
+                        <p>you are here</p>
+                      </agm-info-window>
+
+                    </agm-marker>
+                  </agm-map>
+                </div>
+                <!--extra message-->
+
+                <div class="form-group">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Any special message</mat-label>
+                    <mat-hint class="text-danger font-weight-bolder ">If you are using this service for anyone except you, Enter their details here.</mat-hint>
+                    <textarea formControlName="extraMessage" matInput placeholder="This appointment for my neighbour"></textarea>
                   </mat-form-field>
                 </div>
-                <mat-form-field  appearance="outline" class="w-100">
-                  <mat-label>Email address</mat-label>
-                  <input type="email" matInput placeholder="" formControlName="email">
-                  <mat-hint class="text-primary">Not required</mat-hint>
-                </mat-form-field>
-              </div>
 
-
-              <div>
-                <button mat-button matStepperPrevious type="button">Back</button>
-                <button mat-raised-button color="primary" matStepperNext type="button" >Done
-                </button>
-              </div>
-            </mat-step>
-
-            ...
-          </mat-horizontal-stepper>
-        </form>
-
-
-        <!--<button (click)="check()">check</button>-->
-
-      </mat-card>
-<!--      <form (ngSubmit)="onSubmit()" [formGroup]="appointmentForm"  class="shadow  bg-white rounded p-lg-5 p-md-3 p-sm-2 p-2 text-center">&ndash;&gt;-->
-        <!--        -->
-        <!--        &lt;!&ndash;address&ndash;&gt;-->
-        <!--        <div class="form-group">-->
-        <!--          <mat-form-field appearance="outline" class="w-100">-->
-        <!--            <mat-label>Enter your address</mat-label>-->
-        <!--            <input id="address" formControlName="address" type="text" matInput placeholder="No.170 batagama South Kandana" required-->
-        <!--                   ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"-->
-        <!--                   (onAddressChange)="handleAddressChange($event)">-->
-        <!--            <mat-error>Requireds field!</mat-error>-->
-        <!--            <mat-hint>Please adjust the marker to your location</mat-hint>-->
-        <!--          </mat-form-field>-->
-        <!--        </div>-->
-
-        <!--        &lt;!&ndash;map&ndash;&gt;-->
-        <!--        <div class="form-group">-->
-        <!--          <agm-map [latitude]="lat" [longitude]="long" [zoom]="10" style="width: 100%;height: 200px">-->
-
-        <!--            <agm-marker [latitude]="lat" [longitude]="long" [markerDraggable]="true"-->
-        <!--                        (dragEnd)="markerDragEnd($event)">-->
-
-        <!--              <agm-info-window>-->
-        <!--                <h3>HI</h3>-->
-        <!--                <p>you are here</p>-->
-        <!--              </agm-info-window>-->
-
-        <!--            </agm-marker>-->
-        <!--          </agm-map>-->
-        <!--        </div>-->
-        <!--        &lt;!&ndash;extra message&ndash;&gt;-->
-
-        <!--        <div class="form-group">-->
-        <!--          <mat-form-field class="w-100" appearance="outline">-->
-        <!--            <mat-label>Any special message</mat-label>-->
-        <!--            <mat-hint class="text-danger font-weight-bolder ">If you are using this service for anyone except you, Enter their details here.</mat-hint>-->
-        <!--            <textarea formControlName="extraMessage" matInput placeholder="This appointment for my neighbour"></textarea>-->
-        <!--          </mat-form-field>-->
-        <!--        </div>-->
-
-        <!--        <mat-spinner-button type="submit" [disabled]="!appointmentForm.valid"-->
-        <!--          [options]="btnOpts"></mat-spinner-button>-->
-<!--              </form>-->
+                <mat-spinner-button type="submit" [disabled]="!appointmentForm.valid"
+                  [options]="btnOpts"></mat-spinner-button>
+              </form>
 
 
 

@@ -101,6 +101,7 @@ item:any;
       this.fire.loginWithEmailandPassword(this.loginForm.value.email, this.loginForm.value.password).then(()=>{
         this.msg = 'Logged in Successfully';
         // this.router.navigate(['dashboard']);
+        this.authService.isLogged.next(true);
         this.snackBar.open(this.msg, 'Ok', {verticalPosition: "bottom", horizontalPosition: "right", duration: 2000})
         this.btnOpts.active = false;
       }).catch(err=>{

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {map, tap} from "rxjs/operators";
 import {Patient} from "../../shared/models/patient";
@@ -13,6 +13,10 @@ import {Appointment} from "../../shared/models/appointment";
 export class AuthService {
 
   userPath;
+  isLogged = new  BehaviorSubject<boolean>(false);
+
+
+
   loggedInPatient:Patient;
 
   constructor(private http:HttpClient) { }
@@ -51,6 +55,9 @@ export class AuthService {
   }
 
   isLoggedInUser(){
+    if (!!localStorage.getItem('mercy')){
+      this.isLogged.next(true);
+    }
     return !!localStorage.getItem('mercy');
   }
 
@@ -76,6 +83,7 @@ export class AuthService {
 
   logOut(){
     localStorage.removeItem('mercy');
+    this.isLogged.next(false);
   }
 
 }

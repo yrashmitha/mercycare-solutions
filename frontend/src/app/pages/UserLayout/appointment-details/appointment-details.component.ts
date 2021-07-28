@@ -44,6 +44,8 @@ export class AppointmentDetailsComponent implements OnInit {
 
   getAlertMessage(statusName: string, userCompleted: number) {
 
+
+
     if (statusName.toLowerCase() == 'pending') {
       this.alertMsg = "Your appointment is still waiting for doctor's approval. You can contact doctor and ask him to review.";
       this.newAlertClass = this.alertClass.concat('warning')

@@ -17,6 +17,7 @@ export class ProfileDataService {
   patientAvatar: string = '';
   userAvatar: string = '';
 
+  patient:any;
 
   public uAvatar = new BehaviorSubject(false);
   uAvatarChanged = this.uAvatar.asObservable();
@@ -96,6 +97,8 @@ export class ProfileDataService {
   getPatientAvatar(patientId): Observable<any> {
     return this.http.get<any>(BackendData.backendApiUrl + 'p/avatar/' + patientId)
       .pipe(tap((res: any) => {
+        this.patient = res;
+        console.log(this.patient);
         this.patientAvatar = res;
         return res;
       }));

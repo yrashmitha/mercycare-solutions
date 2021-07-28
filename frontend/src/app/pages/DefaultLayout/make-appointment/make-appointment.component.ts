@@ -10,6 +10,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {FireAuthService} from "../../../services/Auth/fire-auth.service";
 import {AngularFireAuth} from "@angular/fire/auth";
 import {MatSelectChange} from "@angular/material/select";
+import {ProfileDataService} from "../../../services/Profile/profile-data.service";
+import {PatientProfile} from "../../../shared/models/patient-profile";
 
 declare var $: any;
 
@@ -57,8 +59,10 @@ export class MakeAppointmentComponent implements OnInit {
   long;
   doctorId;
   address;
+  user_id;
   appointmentForm: FormGroup;
   patientFireId;
+  patient : PatientProfile;
   titles: Title[] = [
     {value: 'Mr'},
     {value: 'Mrs'},
@@ -69,8 +73,9 @@ export class MakeAppointmentComponent implements OnInit {
   ];
 
   constructor(private appointmentService: AppointmentDataService, private _formBuilder: FormBuilder,
-              private auth: AuthService, private route: ActivatedRoute,
-              private router: Router, private snack: MatSnackBar, private fireAuth: FireAuthService, private afAuth: AngularFireAuth) {
+              public auth: AuthService, private route: ActivatedRoute,
+              private router: Router, private snack: MatSnackBar,
+              private fireAuth: FireAuthService, private afAuth: AngularFireAuth,private profileService:ProfileDataService) {
   }
 
   get formArray(): AbstractControl | null {
@@ -93,41 +98,47 @@ export class MakeAppointmentComponent implements OnInit {
     //getting selected doctor id from url
     this.doctorId = this.route.snapshot.paramMap.get('id');
     // making form group
-    this.appointmentForm = this._formBuilder.group({
-      formArray: this._formBuilder.array([
-        this._formBuilder.group({
-          firstName: [null, [
-            Validators.required,
-            Validators.minLength(3),
-          ]],
-          lastName: [null, [
-            Validators.required,
-            Validators.minLength(3),
-          ]],
-          title: [null, [
-            Validators.required,
-          ]],
-        }),
+    // this.appointmentForm = this._formBuilder.group({
+    //   formArray: this._formBuilder.array([
+    //     this._formBuilder.group({
+    //       firstName: [null, [
+    //         Validators.required,
+    //         Validators.minLength(3),
+    //       ]],
+    //       lastName: [null, [
+    //         Validators.required,
+    //         Validators.minLength(3),
+    //       ]],
+    //       title: [null, [
+    //         Validators.required,
+    //       ]],
+    //     }),
+    //
+    //
+    //     this._formBuilder.group({
+    //       address: new FormControl(null, [
+    //         Validators.required,
+    //         Validators.minLength(3),
+    //       ]),
+    //     }),
+    //
+    //     this._formBuilder.group({
+    //       phoneNumber: new FormControl(null, [
+    //         Validators.required,
+    //         Validators.pattern("^((\\+91-?))?[0-9]{9}$"),
+    //       ]),
+    //       email: new FormControl(null, [
+    //         Validators.email,
+    //       ]),
+    //     }),
+    //   ])
+    // });
 
+    this.appointmentForm = new FormGroup({
+      address:new FormControl(null,[Validators.required]),
+      extraMessage:new FormControl("",[Validators.minLength(5)]),
+    })
 
-        this._formBuilder.group({
-          address: new FormControl(null, [
-            Validators.required,
-            Validators.minLength(3),
-          ]),
-        }),
-
-        this._formBuilder.group({
-          phoneNumber: new FormControl(null, [
-            Validators.required,
-            Validators.pattern("^((\\+91-?))?[0-9]{9}$"),
-          ]),
-          email: new FormControl(null, [
-            Validators.email,
-          ]),
-        }),
-      ])
-    });
     // this.appointmentForm=new FormGroup({
     //   extraMessage:new FormControl("",[Validators.minLength(5)]),
     //   address:new FormControl(null,[Validators.required])
@@ -144,15 +155,33 @@ export class MakeAppointmentComponent implements OnInit {
       this.long = res.coords.longitude;
     })
 
-    this.disableInputs();
+    // this.disableInputs();
 
+    this.user_id = this.auth.getUser().id;
+
+    this.getData();
+
+    console.log(this.user_id);
   }
 
-  private disableInputs() {
-    this.personalDetails.get('title').disable();
-    this.personalDetails.get('firstName').disable();
-    this.personalDetails.get('lastName').disable();
+  setPatientAddress() {
+    this.appointmentForm.patchValue({
+      address: this.patient.address
+    });
+    // this.appointmentForm.get('address').setValue( this.patient.address);
+
+    let coords = JSON.parse(this.patient.geoCoords);
+    this.lat = coords.lat;
+    this.long = coords.long;
+    // console.log(this.address.value.address)
+    // this.alert = true;
   }
+
+  // private disableInputs() {
+  //   this.personalDetails.get('title').disable();
+  //   this.personalDetails.get('firstName').disable();
+  //   this.personalDetails.get('lastName').disable();
+  // }
 
   public handleAddressChange(address: Address) {
     // this.address=address.formatted_address;
@@ -176,7 +205,7 @@ export class MakeAppointmentComponent implements OnInit {
       long: this.long
     };
 
-    console.log(this.fireAuth.currentUser())
+    console.log(JSON.stringify(coords))
 
     this.appointmentService.createAppointment(this.auth.getUser().id, this.patientFireId, this.doctorId, this.address,
       this.appointmentForm.value.extraMessage, JSON.stringify(coords))
@@ -195,14 +224,19 @@ export class MakeAppointmentComponent implements OnInit {
       });
   }
 
-
-  appointmentforSelectionChange($event: MatSelectChange) {
-    this.disableInputs();
-    if ($event.value == "another") {
-      this.personalDetails.get("firstName").enable();
-      this.personalDetails.get("lastName").enable();
-      this.personalDetails.get("title").enable();
-
-    }
+  getData() {
+    this.profileService.getProfileData(this.user_id).subscribe(res => {
+      this.patient = res;
+    })
   }
+
+  // appointmentforSelectionChange($event: MatSelectChange) {
+  //   this.disableInputs();
+  //   if ($event.value == "another") {
+  //     this.personalDetails.get("firstName").enable();
+  //     this.personalDetails.get("lastName").enable();
+  //     this.personalDetails.get("title").enable();
+  //
+  //   }
+  // }
 }

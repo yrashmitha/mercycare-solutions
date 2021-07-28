@@ -27,7 +27,7 @@ export class AppointmentDetailsForDoctorComponent implements OnInit {
 
   value:any;
   ok:boolean=true;
-  
+
   approveForm:FormGroup;
 
   lat = 7.048867;
@@ -119,7 +119,7 @@ export class AppointmentDetailsForDoctorComponent implements OnInit {
     this.getDirection();
     console.log("lat "+this.lat+" lng "+this.lng);
     let url="https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins="+this.mylat+","+this.mylng+
-      "&destinations="+this.patientGeoCoords.lat+","+this.patientGeoCoords.long+"6&key=AIzaSyAYuDnSvsQCeSl9NcOtIXSuDJyxGJHerTo";
+      "&destinations="+this.patientGeoCoords.lat+","+this.patientGeoCoords.long+"6&key=AIzaSyB6zk7dmppRilAba6JSCz_0698mN7GovRQ";
     this.getCalculatedDistanceAndDuration(url);
   }
 

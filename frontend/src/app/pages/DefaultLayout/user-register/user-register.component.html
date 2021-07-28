@@ -1,54 +1,63 @@
-<form class="form-horizontal" (ngSubmit)="onSubmit()">
-  <fieldset>
+<div class="container">
 
-    <!-- Form Name -->
-    <legend>Form Name</legend>
+  <form class="my-3" (ngSubmit)="onSubmit()">
+    <fieldset>
 
-    <!-- Text input-->
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="name">name</label>
-      <div class="col-md-4">
-        <input [(ngModel)]="name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
+      <!-- Form Name -->
 
+
+      <div class="row d-flex flex-column align-items-center">
+        <div class="col-12 col-md-8 card by-4 p-2 p-md-5">
+          <h5 class="text-center">Doctors, Nurse Registration</h5>
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-12 control-label" for="name">Name</label>
+            <div class="col-md-12">
+              <input [(ngModel)]="name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
+
+            </div>
+          </div>
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-12 control-label" for="pricePerHour">Price Per Hour</label>
+            <div class="col-md-12">
+              <input [(ngModel)]="price_per_hour" id="pricePerHour" name="pricePerHour" type="number" placeholder="pricePerHour" class="form-control input-md" required="">
+
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-12 control-label" for="email">Email</label>
+            <div class="col-md-12">
+              <input [(ngModel)]="email" id="email" name="email" type="email" placeholder="email" class="form-control input-md" required="">
+
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-12 control-label" for="password">Password</label>
+            <div class="col-md-12">
+              <input [(ngModel)]="password" id="password" name="password" type="password" placeholder="password" class="form-control input-md" required="">
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-12 control-label" for="phoneNumber">Phone Number</label>
+            <div class="col-md-12">
+              <input [(ngModel)]="phone_num" id="phoneNumber" name="phoneNumber" type="tel" placeholder="phoneNumber" class="form-control input-md">
+
+            </div>
+          </div>
+
+          <!-- Text input-->
+
+          <button type="submit" class="btn btn-success">Submit</button>
+        </div>
       </div>
-    </div>
 
-    <!-- Text input-->
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="pricePerHour">pricePerHour</label>
-      <div class="col-md-4">
-        <input [(ngModel)]="price_per_hour" id="pricePerHour" name="pricePerHour" type="number" placeholder="pricePerHour" class="form-control input-md" required="">
 
-      </div>
-    </div>
-
-    <!-- Text input-->
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="password">password</label>
-      <div class="col-md-4">
-        <input [(ngModel)]="password" id="password" name="password" type="password" placeholder="password" class="form-control input-md" required="">
-        <span class="help-block">help</span>
-      </div>
-    </div>
-
-    <!-- Text input-->
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="phoneNumber">phoneNumber</label>
-      <div class="col-md-4">
-        <input [(ngModel)]="phone_num" id="phoneNumber" name="phoneNumber" type="tel" placeholder="phoneNumber" class="form-control input-md">
-
-      </div>
-    </div>
-
-    <!-- Text input-->
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="email">email</label>
-      <div class="col-md-4">
-        <input [(ngModel)]="email" id="email" name="email" type="email" placeholder="email" class="form-control input-md" required="">
-
-      </div>
-    </div>
-
-    <button type="submit">Submit</button>
-  </fieldset>
-</form>
+    </fieldset>
+  </form>
+</div>
