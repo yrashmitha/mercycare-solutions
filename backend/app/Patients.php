@@ -202,6 +202,7 @@ class Patients extends Authenticatable implements JWTSubject
             "email"=>$this->email,
             "id"=>$this->id,
             "nic"=>$this->nic,
+            "title" => $this->title
 
         ];
     }

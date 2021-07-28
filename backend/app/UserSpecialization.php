@@ -12,6 +12,11 @@ class UserSpecialization extends Model
 {
     use Uuid;
     public $incrementing = false;
+    protected $fillable = [
+        'user_id',
+        'specialization_id'
+    ];
+    protected $primaryKey = "user_id";
 
     public function updateSpecialization($specializationArray){
         $arr=explode(',',$specializationArray);
@@ -25,12 +30,16 @@ class UserSpecialization extends Model
 
             //inserting new user specilizations
             foreach ($arr as $obj){
-               $qry="INSERT INTO `user_specializations`(`user_id`, `specialization_id`, `created_at`) VALUES (?,?,?)";
-               $res=DB::select($qry,array(
-                   0=>$userId,
-                   1=>$obj,
-                   2=>Carbon::now()
-               ));
+                $s = new UserSpecialization();
+                $s->user_id = $userId;
+                $s->specialization_id = $obj;
+                $s->save();
+//               $qry="INSERT INTO `user_specializations`(`user_id`, `specialization_id`, `created_at`) VALUES (?,?,?)";
+//               $res=DB::select($qry,array(
+//                   0=>$userId,
+//                   1=>$obj,
+//                   2=>Carbon::now()
+//               ));
             }
         }catch (\Exception $e){
             DB::rollBack();

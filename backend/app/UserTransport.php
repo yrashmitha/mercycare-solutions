@@ -11,9 +11,10 @@ use Illuminate\Support\Facades\DB;
 class UserTransport extends Model
 {
     public $incrementing = false;
+    protected $primaryKey = "user_id";
     use Uuid;
     protected $fillable = [
-        'user_id', 'transport_id',
+        'user_id', 'transport_id','price_per_km'
     ];
 
 
@@ -51,18 +52,23 @@ class UserTransport extends Model
         }
     }
 
-    public function addNewTransport($transportId,$price)
+    public static function addNewTransport($transportId,$price)
     {
         try{
-            $qry="INSERT INTO `user_transports`(`user_id`, `transport_id`, `price_per_km`) VALUES (?,?,?) ";
-            $res=DB::select($qry,array(
-                0=>Auth::user()->getAuthIdentifier(),
-                1=>$transportId,
-                2=>$price
-            ));
+            $uT = new UserTransport();
+            $uT->user_id = Auth::user()->getAuthIdentifier();
+            $uT->transport_id = $transportId;
+            $uT->price_per_km = $price;
+            $uT->save();
+//            $qry="INSERT INTO `user_transports`(`user_id`, `transport_id`, `price_per_km`) VALUES (?,?,?) ";
+//            $res=DB::select($qry,array(
+//                0=>Auth::user()->getAuthIdentifier(),
+//                1=>$transportId,
+//                2=>$price
+//            ));
             return  response()->json(["msg"=>"New transport method added successfully."]);
         }catch (\Exception $e){
-            return response()->json(["msg"=>'Error occurred. Code is '.$e->getCode()]);
+            return response()->json(["msg"=>'Error occurred. Code is '.$e->getMessage()]);
         }
     }
 

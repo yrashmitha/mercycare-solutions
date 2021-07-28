@@ -170,8 +170,8 @@ class ProfileDataController extends Controller
 //        return $request;
         $price = $request->price;
         $transport_id = $request->transport_id;
-        $ob = new UserTransport();
-        $res = $ob->addNewTransport($transport_id, $price);
+
+        $res = UserTransport::addNewTransport($transport_id, $price);
         return $res;
     }
 
