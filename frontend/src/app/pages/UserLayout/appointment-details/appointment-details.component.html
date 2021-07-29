@@ -27,7 +27,7 @@
 <!--button section-->
 <div class="row d-flex justify-content-end mb-2 fc-button-group">
   <!--cancel appointment btn-->
-  <button *ngIf="appointment?.appointmentStatusId == 1"  mat-raised-button color="warn" class="">Cancel </button>
+  <button *ngIf="appointment?.appointmentStatusId == 1"  mat-raised-button color="warn" class="" (click)="onCancel(appointment?.appointmentId)">Cancel </button>
   <!--cancel appointment btn end-->
 
   <!--mark as complete-->

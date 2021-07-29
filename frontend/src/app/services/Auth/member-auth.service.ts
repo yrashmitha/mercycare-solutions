@@ -46,4 +46,7 @@ export class MemberAuthService {
   }
 
 
+  deleteMember(id: number) {
+    return this.http.delete(BackendData.backendApiUrl+'member/'+id);
+  }
 }

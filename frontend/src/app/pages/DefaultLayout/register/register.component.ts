@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
 
   btnOpts: MatProgressButtonOptions = {
     active: false,
-    text: 'Login',
+    text: 'Register',
     spinnerSize: 19,
     raised: true,
     stroked: false,

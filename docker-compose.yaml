@@ -1,6 +1,7 @@
 version: "3.8"
 
 services:
+
   server:
     user: root
     image: "nginx:stable-alpine"
@@ -36,7 +37,6 @@ services:
       dockerfile: composer.dockerfile
     volumes:
     - ./backend:/var/www/html
-
 
   npm:
     image: node:14

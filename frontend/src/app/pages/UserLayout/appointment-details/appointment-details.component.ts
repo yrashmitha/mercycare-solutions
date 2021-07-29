@@ -88,4 +88,9 @@ export class AppointmentDetailsComponent implements OnInit {
     }
   }
 
+  onCancel(appointmentId: string | undefined) {
+    this.appointmentService.patientCancel(appointmentId).subscribe((res: any) => {
+      this.handleCompleteResponce(res);
+    })
+  }
 }

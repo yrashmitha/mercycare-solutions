@@ -220,4 +220,11 @@ export class AddMembersComponent implements OnInit {
       }
     })
   }
+
+  onClickDelete(id: number) {
+    this.memberAuth.deleteMember(id).subscribe(res=>{
+      this.memberAuth.openSnackBar(res)
+      this.getMyMembers();
+    })
+  }
 }

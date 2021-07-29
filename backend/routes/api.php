@@ -37,6 +37,7 @@ Route::post('app/d/complete/{id}',"AppointmentController@userComplete")->middlew
 
 Route::get('app/getall/d/{id}',"AppointmentController@getAllUserAppointments")->middleware(['shared']);
 Route::get('app/getappointment/{id}',"AppointmentController@getAppointmentData")->middleware(['shared']);
+Route::get('app/p/cancel/{id}',"AppointmentController@cancelAppointmentByPatient")->middleware(['shared']);
 
 Route::get('app/gettransport/{id}',"SharedDataController@getUserTransports")->middleware('auth:api');
 Route::post('app/approve/{id}',"AppointmentController@approveAppointment")->middleware('auth:api');
@@ -63,6 +64,7 @@ Route::post('d/specializationupdate',"ProfileDataController@updateSpecialization
 Route::post('member/register', 'MemberAuthController@register');
 Route::get('member/getall', 'MemberDataController@getMyAllMembers');
 Route::post('member/update/{id}', 'MemberDataController@updateMember');
+Route::delete('member/{id}', 'MemberDataController@deleteMember');
 //member/getall
 
 Route::post('user/register', 'UserAuthController@register');

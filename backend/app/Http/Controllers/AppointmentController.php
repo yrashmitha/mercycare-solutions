@@ -52,6 +52,16 @@ class AppointmentController extends Controller
         $res=$app->getAppointmentData($id);
         return $res;
     }
+    public function cancelAppointmentByPatient($id)
+    {
+        $a =Appointment::findOrFail($id);
+        $a->appointment_status_id = 5;
+        $a->save();
+
+        return response()->json(['msg'=>"Appointment Cancelled"]);
+    }
+
+
 
     public function approveAppointment(Request $request,$id)
     {

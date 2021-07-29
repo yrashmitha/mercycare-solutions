@@ -6,6 +6,7 @@ use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Uuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Mockery\Exception;
 
 class Appointment extends Model
 {
@@ -107,21 +108,26 @@ class Appointment extends Model
 
     public function getAppointmentData($appointmentId)
     {
-        $res = DB::table('appointments')->where('appointments.id', '=', $appointmentId)
-            ->join('users', 'users.id', '=', 'appointments.user_id')
-            ->join('appointment_details', 'appointment_details.appointment_id', '=', 'appointments.id')
-            ->join('user_transports', 'user_transports.transport_id', '=', 'appointment_details.transport_id')
-            ->join('appointment_statuses', 'appointment_statuses.id', '=', 'appointments.appointment_status_id')
-            ->join('patients', 'patients.id', '=', 'appointments.patient_id')
-            ->select('appointments.*',
-                'appointment_statuses.appointment_status',
-                'appointment_details.*',
-                'user_transports.price_per_km',
-                'patients.f_name', 'patients.l_name', 'patients.email', 'patients.mobile_num', 'patients.title', 'patients.mobile_num'
-                , 'users.name', 'users.phone_num', 'users.email', 'users.price_per_hour'
-            )
-            ->get();
-        return response()->json($res);
+        try {
+            $res = DB::table('appointments')->where('appointments.id', '=', $appointmentId)
+                ->join('users', 'users.id', '=', 'appointments.user_id')
+                ->join('appointment_details', 'appointment_details.appointment_id', '=', 'appointments.id')
+                ->join('user_transports', 'user_transports.transport_id', '=', 'appointment_details.transport_id')
+                ->join('appointment_statuses', 'appointment_statuses.id', '=', 'appointments.appointment_status_id')
+                ->join('patients', 'patients.id', '=', 'appointments.patient_id')
+                ->select('appointments.*',
+                    'appointment_statuses.appointment_status',
+                    'appointment_details.*',
+                    'user_transports.price_per_km',
+                    'patients.f_name', 'patients.l_name', 'patients.email', 'patients.mobile_num', 'patients.title', 'patients.mobile_num'
+                    , 'users.name', 'users.phone_num', 'users.email', 'users.price_per_hour'
+                )
+                ->get();
+            return response()->json($res);
+        }catch (\Exception $e){
+            return response()->json($e->getMessage());
+        }
+
 
     }
 

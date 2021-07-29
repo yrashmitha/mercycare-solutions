@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\PatientMember;
 use App\Patients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,5 +27,13 @@ class MemberDataController extends Controller
         $geo_cords=$request->geo_coords;
         $p=new Patients();
         return $p->updateMemberPatientProfile($id,$email,$f_name,$l_name,$mobile_num,$title,$address,$geo_cords);
+    }
+
+    public function deleteMember(Request $request,$id)
+    {
+//        return $request->geo_coords;
+        $pid = Auth::guard('patients')->user()->getAuthIdentifier().'mercy'.$id;
+        $m = PatientMember::where('id',$pid)->delete();
+        return response()->json('Successfully deleted.');
     }
 }

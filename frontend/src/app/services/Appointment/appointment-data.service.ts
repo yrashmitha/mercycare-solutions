@@ -180,4 +180,7 @@ export class AppointmentDataService {
     })
   }
 
+  patientCancel(appointmentId: string) {
+    return this.http.get(BackendData.backendApiUrl+"app/p/cancel/"+appointmentId,)
+  }
 }
